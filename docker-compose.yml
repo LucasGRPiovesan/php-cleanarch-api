@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php_app
+    volumes:
+      - .:/var/www/html
+      - ./docker/php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    entrypoint: ["sh", "docker/entrypoint.sh"]
+    env_file:
+      - .env
+
