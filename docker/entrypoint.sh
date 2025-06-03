@@ -3,28 +3,28 @@
 # Fail fast
 set -e
 
-echo "Aguardando o banco de dados iniciar..."
+echo "Waiting for the database to start..."
 
-# Aguarda o MySQL ficar disponível
+# Wait for MySQL to become available
 until mysqladmin ping -h"$DB_HOST" --silent; do
   sleep 2
 done
 
-echo "Banco de dados iniciado!"
+echo "Database started!"
 
-# Instala dependências (caso container seja recriado sem cache)
-echo "Instalando dependências do Composer..."
+# Install dependencies (if container is recreated without cache)
+echo "Installing Composer dependencies..."
 composer install --no-interaction --optimize-autoloader
 
-# Roda as migrations ao iniciar o projeto
-echo "Rodando as migrations"
+# Run migrations when starting the project
+echo "===================== MIGRATIONS ====================="
 composer migrate
-echo "Migrations carregadas com sucesso."
+echo "Migrations executed successfully!"
 
-# Popula o banco com as seeders
-echo "Carregando dados..."
+# Populate the bank with seeders
+echo "===================== SEED DATA ====================="
 composer seed
-echo "Dados carregados com sucesso."
+echo "Data loaded successfully!"
 
 exec apache2-foreground
 

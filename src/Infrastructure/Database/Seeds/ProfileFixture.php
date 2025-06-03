@@ -11,17 +11,25 @@ class ProfileFixture extends AbstractFixture
 {
     public function load(ObjectManager $manager): void
     {
-        $profile = new Profile(
-            Uuid::uuid4()->toString(),
-            'admin',
-            'Administrador do sistema'
-        );
+        try {
+            
+            $profile = new Profile(
+                Uuid::uuid4()->toString(),
+                'admin',
+                'Administrador do sistema'
+            );
+    
+            $manager->persist($profile);
+            $manager->flush();
+            
+            // Guarda a referência para uso em outros fixtures
+            $this->addReference('admin', $profile);
+            echo "✅ Profiles seeded successfully" . PHP_EOL;
 
-        $manager->persist($profile);
-        $manager->flush();
-        
-        // Guarda a referência para uso em outros fixtures
-        $this->addReference('admin', $profile);
-
+        } catch (\Throwable $th) {
+            
+            echo "❌ Error on seed Profiles" . PHP_EOL;
+            echo $th->getMessage() . PHP_EOL; 
+        }
     }
 }

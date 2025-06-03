@@ -7,15 +7,13 @@ use Modules\User\Application\DTOs\CreateProfileDTO;
 
 class ProfileController
 {
-    public function __construct(private CreateProfileUseCase $createProfileUseCase)
-    {
-    }
+    public function __construct(private CreateProfileUseCase $createProfileUseCase){}
 
     /**
-     * Recebe os dados da requisição para criar um novo usuário.
-     * @param array $request Dados de entrada (ex: $_POST)
+     * Receives the request data to create a new profile.
+     * @param array $request Input data (ex: $_POST)
      * @return void
-     * @throws \InvalidArgumentException Caso dados inválidos
+     * @throws \InvalidArgumentException Invalid input
      */
     public function store(array $request): void
     {
@@ -23,6 +21,6 @@ class ProfileController
 
         $this->createProfileUseCase->execute($dto);
 
-        echo "Perfil criado com sucesso!";
+        echo "Profile created successfully!";
     }
 }

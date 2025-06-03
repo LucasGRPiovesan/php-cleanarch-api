@@ -15,6 +15,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Define diretório de trabalho dentro do container
 WORKDIR /var/www/html
 
+# Configure git to not prompt for credentials
+RUN git config --global --add safe.directory /var/www/html
+
 # Copia os arquivos do composer para aproveitar cache em builds futuros
 COPY composer*.json ./
 

@@ -10,7 +10,6 @@ class EntityManagerFactory
 {
     public static function create(): EntityManager
     {
-        // Carrega variáveis de ambiente
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->safeLoad();
 

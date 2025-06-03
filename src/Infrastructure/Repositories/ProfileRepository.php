@@ -8,7 +8,7 @@ use Domain\Repositories\ProfileRepositoryInterface;
 
 class ProfileRepository implements ProfileRepositoryInterface
 {
-    public function __construct(private EntityManagerInterface $em) {}
+    public function __construct(private EntityManagerInterface $em){}
 
     public function findByUuid(string $uuid): ?Profile
     {

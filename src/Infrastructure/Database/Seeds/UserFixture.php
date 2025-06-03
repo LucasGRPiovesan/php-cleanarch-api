@@ -12,19 +12,29 @@ class UserFixture extends AbstractFixture implements FixtureInterface, Dependent
 {
     public function load(ObjectManager $manager): void
     {
-        /** @var Profile $profile */
-        $profile = $this->getReference('admin', Profile::class);
+        try {
 
-        $user = new User(
-            Uuid::uuid4()->toString(),
-            'João Silva',
-            'joao@email.com',
-            password_hash('123456', PASSWORD_DEFAULT),
-            $profile
-        );
+            /** @var Profile $profile */
+            $profile = $this->getReference('admin', Profile::class);
+    
+            $user = new User(
+                Uuid::uuid4()->toString(),
+                'João Silva',
+                'joao@email.com',
+                password_hash('123456', PASSWORD_DEFAULT),
+                $profile
+            );
+    
+            $manager->persist($user);
+            $manager->flush();
+    
+            echo "✅ Users seeded successfully" . PHP_EOL;
 
-        $manager->persist($user);
-        $manager->flush();
+        } catch (\Throwable $th) {
+            
+            echo "❌ Error on seed Users" . PHP_EOL;
+            echo $th->getMessage() . PHP_EOL;
+        }
     }
 
     public function getDependencies(): array

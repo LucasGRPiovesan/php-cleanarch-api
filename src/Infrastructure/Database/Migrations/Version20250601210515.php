@@ -11,7 +11,7 @@ final class Version20250601210515 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Criação da tabela tb_user com relacionamento 1:N com tb_profile';
+        return 'tb_user | User table create';
     }
 
     public function up(Schema $schema): void
@@ -40,6 +40,8 @@ final class Version20250601210515 extends AbstractMigration
             ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'], // Opções (ajustáveis)
             'FK_USER_PROFILE'    // Nome da constraint
         );
+
+        echo "✅ Users migrated successfully" . PHP_EOL;
     }
 
     public function down(Schema $schema): void

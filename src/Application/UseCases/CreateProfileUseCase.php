@@ -11,15 +11,12 @@ use Ramsey\Uuid\Uuid;
 
 class CreateProfileUseCase
 {
-    public function __construct(private ProfileRepositoryInterface $profileRepo)
-    {
-    }
+    public function __construct(private ProfileRepositoryInterface $profileRepo){}
 
     public function execute(CreateProfileDTO $dto): void
     {
-        // Validação simples
         if (empty($dto->profile)) {
-            throw new \InvalidArgumentException("O nome do perfil é obrigatório.");
+            throw new \InvalidArgumentException("Profile name is required.");
         }
 
         $profile = new Profile(

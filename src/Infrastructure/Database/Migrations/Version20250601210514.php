@@ -11,7 +11,7 @@ final class Version20250601210514 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Criação da tabela tb_profile';
+        return 'tb_profile | Profile table create';
     }
 
     public function up(Schema $schema): void
@@ -28,6 +28,8 @@ final class Version20250601210514 extends AbstractMigration
 
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['uuid'], 'UNIQ_PROFILE_UUID');
+
+        echo "✅ Profiles migrated successfully" . PHP_EOL;
     }
 
     public function down(Schema $schema): void

@@ -47,6 +47,4 @@ class User
         $this->profile = $profile;
         $this->created_at = new \DateTimeImmutable();
     }
-
-    // Getters e Setters...
 }

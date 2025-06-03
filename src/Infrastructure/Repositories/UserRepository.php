@@ -8,9 +8,7 @@ use Domain\Repositories\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function __construct(private EntityManagerInterface $em)
-    {
-    }
+    public function __construct(private EntityManagerInterface $em){}
 
     public function findByUuid(string $uuid): ?User
     {

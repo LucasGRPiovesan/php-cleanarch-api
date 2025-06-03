@@ -17,23 +17,19 @@ class CreateUserUseCase
 
     public function execute(CreateUserDTO $dto): void
     {
-        // 1. Busca o perfil pelo UUID
         $profile = $this->profileRepo->findByUuid($dto->uuid_profile);
-
         if (!$profile) {
-            throw new \InvalidArgumentException("Perfil não encontrado para o UUID: {$dto->uuid_profile}");
+            throw new \InvalidArgumentException("Profile not found: {$dto->uuid_profile}");
         }
 
-        // 2. Validação simples (exemplo: email não vazio)
         if (empty($dto->email)) {
-            throw new \InvalidArgumentException("Email é obrigatório.");
+            throw new \InvalidArgumentException("Email is required.");
         }
 
         if (empty($dto->password)) {
-            throw new \InvalidArgumentException("Senha é obrigatória.");
+            throw new \InvalidArgumentException("Password is required.");
         }
 
-        // 3. Cria a entidade User (gera UUID para o usuário)
         $user = new User(
             Uuid::uuid4()->toString(),
             $dto->name,
@@ -42,7 +38,6 @@ class CreateUserUseCase
             $profile
         );
 
-        // 4. Persiste o usuário no banco
         $this->userRepo->save($user);
     }
 }
