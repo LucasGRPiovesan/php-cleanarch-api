@@ -17,7 +17,7 @@ A robust and modular **RESTful API** built with **Pure PHP**, following the **Cl
 | ![PHPUnit](https://img.shields.io/badge/PHPUnit-3A2C8A?style=for-the-badge&logo=php&logoColor=white) | Unit testing framework |
 
 ---
-📦 Features
+## 📦 Features
 
 - ✅ Clean and maintainable structure
 - ✅ Fully containerized
@@ -25,3 +25,34 @@ A robust and modular **RESTful API** built with **Pure PHP**, following the **Cl
 - ✅ Shell scripts for automation
 - ✅ PHPUnit integration
 - ✅ Easy to extend with new modules
+
+---
+## 🐳 Setup
+
+1. Copy the **.env.example** and **docker-compose.override.example.yml** files and rename them (respectively) to **.env** and **docker-compose.override.yml**.
+
+   > ⚠️ **Warning:** If the default database port is in use, use another one and reflect this change in the service configuration.
+
+   ```yaml
+   # docker-compose.override.yml
+   db:
+     image: mysql:8.0
+     container_name: mysql_db
+     restart: unless-stopped
+     environment:
+       MYSQL_DATABASE: ${DB_DATABASE}
+       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+     ports:
+       - "3306:3306" # <- Change here to 3307:3306 for example 
+     volumes:
+       - db_data:/var/lib/mysql
+
+2. Access the project directory:
+    ```bash
+    cd php-cleanarch-api/
+    ```
+
+3. The first time you run it on your machine, run the command:
+    ```bash
+    docker-compose up --build
+    ```
