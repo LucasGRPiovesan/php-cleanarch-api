@@ -49,4 +49,24 @@ class Profile
     {
         $this->users->add($user);
     }
+
+    public function getUuid(): string 
+    {
+        return $this->uuid;    
+    }
+
+    public function getProfile(): string 
+    {
+        return $this->profile;    
+    }
+
+    public function getDescription(): string 
+    {
+        return $this->profile;    
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable 
+    {
+        return $this->created_at;
+    }
 }

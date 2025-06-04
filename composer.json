@@ -17,6 +17,7 @@
       "Domain\\": "src/Domain/",
       "Infrastructure\\": "src/Infrastructure/",
       "Interfaces\\": "src/Interfaces/",
+      "Frameworks\\": "src/Frameworks/",
       "Config\\": "config/"
     }
   },

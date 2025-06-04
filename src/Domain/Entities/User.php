@@ -47,4 +47,29 @@ class User
         $this->profile = $profile;
         $this->created_at = new \DateTimeImmutable();
     }
+
+    public function getUuid(): string 
+    {
+        return $this->uuid;    
+    }
+
+    public function getName(): string 
+    {
+        return $this->name;    
+    }
+
+    public function getEmail(): string 
+    {
+        return $this->email;    
+    }
+
+    public function getProfile(): Profile 
+    {
+        return $this->profile;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable 
+    {
+        return $this->created_at;
+    }
 }

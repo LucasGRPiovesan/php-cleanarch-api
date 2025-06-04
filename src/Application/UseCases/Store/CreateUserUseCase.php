@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\UseCases;
+namespace Application\UseCases\Store;
 
 use Application\DTO\CreateUserDTO;
 use Domain\Entities\User;

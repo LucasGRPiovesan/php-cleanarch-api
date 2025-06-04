@@ -13,9 +13,12 @@ class EntityManagerFactory
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->safeLoad();
 
+        $proxyDir = __DIR__ . '/../proxies';
+
         $config = ORMSetup::createAttributeMetadataConfiguration(
             paths: [__DIR__ . '/../src/Domain/Entities'],
-            isDevMode: true
+            isDevMode: true,
+            proxyDir: $proxyDir
         );
 
         $conn = [

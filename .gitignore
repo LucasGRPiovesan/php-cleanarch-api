@@ -1,4 +1,5 @@
 vendor
+proxies
 
 .env
 docker-compose.override.yml

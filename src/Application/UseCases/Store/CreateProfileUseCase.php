@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Application\UseCases;
+namespace Application\UseCases\Store;
 
 use Domain\Entities\Profile;
 use Modules\User\Application\DTOs\CreateProfileDTO;

@@ -15,6 +15,11 @@ class ProfileRepository implements ProfileRepositoryInterface
         return $this->em->getRepository(Profile::class)->findOneBy(['uuid' => $uuid]);
     }
 
+    public function list(): array
+    {
+        return $this->em->getRepository(Profile::class)->findAll();
+    }
+
     public function save(Profile $profile): void
     {
         $this->em->persist($profile);
