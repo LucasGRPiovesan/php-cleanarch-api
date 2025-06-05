@@ -7,6 +7,6 @@ use Domain\Entities\Profile;
 interface ProfileRepositoryInterface
 {
     public function list(): array;
-    public function findByUuid(string $uuid): ?Profile;
-    public function save(Profile $profile): void;
+    public function fetch(string $uuid): ?Profile;
+    public function store(Profile $profile): Profile;
 }

@@ -8,6 +8,7 @@ class Router
     protected $method;
     
     public array $payload;
+    public array $queryParams = [];
 
     private $routes = [];
 
@@ -15,6 +16,7 @@ class Router
     {
         $this->uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->queryParams = $_GET;
 
         if ($this->method === 'POST' || $this->method === 'PATCH' || $this->method === 'PUT') {
             $this->payload = json_decode(file_get_contents('php://input'), true);
@@ -39,7 +41,25 @@ class Router
     public function dispatch()
     {
         foreach ($this->routes as $route) {
-            if ($route['method'] === $this->method && $route['path'] === $this->uri) {
+            if ($route['method'] !== $this->method) {
+                continue;
+            }
+
+            // Transforma path com {param} em regex
+            $pattern = preg_replace('#\{[\w]+\}#', '([\w-]+)', $route['path']);
+            $pattern = "#^{$pattern}$#";
+
+            if (preg_match($pattern, $this->uri, $matches)) {
+                array_shift($matches); // Remove o match completo
+
+                // Extrai os nomes dos parâmetros
+                preg_match_all('#\{([\w]+)\}#', $route['path'], $paramNames);
+                $paramNames = $paramNames[1];
+
+                // Associa nome => valor
+                $params = array_combine($paramNames, $matches);
+                $this->queryParams = array_merge($this->queryParams, $params);
+
                 return call_user_func($route['handler'], $this);
             }
         }

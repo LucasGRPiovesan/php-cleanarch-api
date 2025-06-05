@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\DTO\List;
+namespace Application\DTO;
 
 use Domain\Entities\Profile;
 

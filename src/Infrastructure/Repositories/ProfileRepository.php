@@ -10,19 +10,21 @@ class ProfileRepository implements ProfileRepositoryInterface
 {
     public function __construct(private EntityManagerInterface $em){}
 
-    public function findByUuid(string $uuid): ?Profile
-    {
-        return $this->em->getRepository(Profile::class)->findOneBy(['uuid' => $uuid]);
-    }
-
     public function list(): array
     {
         return $this->em->getRepository(Profile::class)->findAll();
     }
 
-    public function save(Profile $profile): void
+    public function fetch(string $uuid): ?Profile
+    {
+        return $this->em->getRepository(Profile::class)->findOneBy(['uuid' => $uuid]);
+    }
+
+    public function store(Profile $profile): Profile
     {
         $this->em->persist($profile);
         $this->em->flush();
+
+        return $profile;
     }
 }

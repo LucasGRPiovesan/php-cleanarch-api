@@ -1,8 +1,8 @@
 <?php
 
-namespace Application\UseCases\List;
+namespace Application\UseCases;
 
-use Application\DTO\List\ListProfileDTO;
+use Application\DTO\ListProfileDTO;
 use Domain\Repositories\ProfileRepositoryInterface;
 
 class ListProfileUseCase

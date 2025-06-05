@@ -2,30 +2,32 @@
 
 namespace Interfaces\Controllers;
 
-use Application\UseCases\List\ListProfileUseCase;
-use Application\UseCases\Store\CreateProfileUseCase;
+use Application\UseCases\{ListProfileUseCase, FetchProfileUseCase, StoreProfileUseCase};
 use Frameworks\Web\Routes\Router;
 use Infrastructure\Repositories\ProfileRepository;
-use Modules\User\Application\DTOs\CreateProfileDTO;
+use Application\DTO\StoreProfileDTO;
 
 class ProfileController
 {
     protected ProfileRepository $profileRepo;
     protected ListProfileUseCase $listProfileUseCase;
-    protected CreateProfileUseCase $createProfileUseCase;
+    protected FetchProfileUseCase $fetchProfileUseCase;
+    protected StoreProfileUseCase $storeProfileUseCase;
 
     public function __construct($entityManager)
     {
         $this->profileRepo = new ProfileRepository($entityManager);
         $this->listProfileUseCase = new ListProfileUseCase($this->profileRepo);
+        $this->fetchProfileUseCase = new FetchProfileUseCase($this->profileRepo);
+        $this->storeProfileUseCase = new StoreProfileUseCase($this->profileRepo);
     }
 
     public function list(Router $request): void
     {
         try {
             
-            $users = $this->listProfileUseCase->execute();
-            $request->send(200, $users);
+            $profiles = $this->listProfileUseCase->execute();
+            $request->send(200, $profiles);
 
         } catch (\Exception $e) {
             
@@ -33,18 +35,45 @@ class ProfileController
         }
     }
 
-    /**
-     * Receives the request data to create a new profile.
-     * @param array $request Input data (ex: $_POST)
-     * @return void
-     * @throws \InvalidArgumentException Invalid input
-     */
-    public function store(array $request): void
+    public function fetch(Router $request): void 
     {
-        $dto = CreateProfileDTO::fromArray($request);
+        try {
 
-        $this->createProfileUseCase->execute($dto);
+            $uuid = $request->queryParams['uuid'];
+            
+            $profile = $this->fetchProfileUseCase->execute($uuid);
+            $request->send(200, $profile);
 
-        echo "Profile created successfully!";
+        } catch (\RuntimeException $e) {
+
+            $request->send(404, ['message' => $e->getMessage()]);
+
+        } catch (\Exception $e) {
+            
+            $request->send(500, ['error' => $e->getMessage()]);
+        }
+    }
+
+    public function store(Router $request): void 
+    {
+        try {
+
+            $data = StoreProfileDTO::fromArray($request->payload);
+            
+            $profile = $this->storeProfileUseCase->execute($data);
+            $request->send(200, $profile);
+
+        } catch (\InvalidArgumentException $e) {
+        
+            $request->send(400, ['error' => $e->getMessage()]);
+        
+        } catch (\RuntimeException $e) {
+
+            $request->send(404, ['message' => $e->getMessage()]);
+
+        } catch (\Exception $e) {
+            
+            $request->send(500, ['error' => $e->getMessage()]);
+        }
     }
 }

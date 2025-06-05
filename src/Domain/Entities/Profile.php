@@ -69,4 +69,9 @@ class Profile
     {
         return $this->created_at;
     }
+
+    public function setCreatedAt(\DateTimeImmutable $date): void 
+    {
+        $this->created_at = $date;
+    }
 }

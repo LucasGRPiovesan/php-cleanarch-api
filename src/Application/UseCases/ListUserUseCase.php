@@ -1,8 +1,8 @@
 <?php
 
-namespace Application\UseCases\List;
+namespace Application\UseCases;
 
-use Application\DTO\List\ListUserDTO;
+use Application\DTO\ListUserDTO;
 use Domain\Repositories\UserRepositoryInterface;
 
 class ListUserUseCase

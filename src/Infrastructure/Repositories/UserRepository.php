@@ -25,9 +25,16 @@ class UserRepository implements UserRepositoryInterface
         return $this->em->getRepository(User::class)->findAll();
     }
 
-    public function save(User $user): void
+    public function fetch(string $uuid): ?User
+    {
+        return $this->em->getRepository(User::class)->findOneBy(['uuid' => $uuid]);
+    }
+
+    public function store(User $user): User
     {
         $this->em->persist($user);
         $this->em->flush();
+
+        return $user;
     }
 }
