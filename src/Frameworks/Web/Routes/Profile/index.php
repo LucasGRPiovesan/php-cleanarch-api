@@ -1,11 +1,11 @@
 <?php
 
-use Config\EntityManagerFactory;
 use Interfaces\Controllers\ProfileController;
 
-$entityManager = EntityManagerFactory::create();
-$profileController = new ProfileController($entityManager);
+$profileController = new ProfileController();
 
 $router->get('/profiles', [$profileController, 'list']);
 $router->get('/profile/{uuid}', [$profileController, 'fetch']);
 $router->post('/profile', [$profileController, 'store']);
+$router->patch('/profile/{uuid}', [$profileController, 'update']);
+$router->delete('/profile/{uuid}', [$profileController, 'delete']);

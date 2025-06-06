@@ -22,12 +22,17 @@ class UserRepository implements UserRepositoryInterface
 
     public function list(): array
     {
-        return $this->em->getRepository(User::class)->findAll();
+        return $this->em->getRepository(User::class)->findBy([
+            'deleted_at' => null
+        ]);
     }
 
     public function fetch(string $uuid): ?User
     {
-        return $this->em->getRepository(User::class)->findOneBy(['uuid' => $uuid]);
+        return $this->em->getRepository(User::class)->findOneBy([
+            'uuid' => $uuid,
+            'deleted_at' => null
+        ]);
     }
 
     public function store(User $user): User
@@ -36,5 +41,19 @@ class UserRepository implements UserRepositoryInterface
         $this->em->flush();
 
         return $user;
+    }
+
+    public function update(User $user): User
+    {
+        $this->em->flush();
+        return $user;
+    }
+
+    public function delete(User $user): void
+    {
+        $user->setDeletedAt(new \DateTime());
+
+        $this->em->persist($user);
+        $this->em->flush();
     }
 }

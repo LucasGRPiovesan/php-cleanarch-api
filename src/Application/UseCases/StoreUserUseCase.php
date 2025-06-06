@@ -8,6 +8,7 @@ use Domain\Entities\User;
 use Application\DTO\{FetchUserDTO, StoreUserDTO};
 use Domain\Repositories\{UserRepositoryInterface, ProfileRepositoryInterface};
 use Ramsey\Uuid\Uuid;
+use RuntimeException;
 
 class StoreUserUseCase
 {
@@ -19,6 +20,10 @@ class StoreUserUseCase
   public function execute(StoreUserDTO $data): FetchUserDTO
   {
     $profile = $this->profileRepo->fetch($data->uuid_profile);
+
+    if (!$profile) {
+      throw new RuntimeException("Profile not found!");
+    }
 
     $user = $this->userRepo->store(new User(
       Uuid::uuid4()->toString(),

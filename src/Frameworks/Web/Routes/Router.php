@@ -33,6 +33,16 @@ class Router
         $this->addRoute('POST', $path, $handler);
     }
 
+    public function patch(string $path, callable $handler)
+    {
+        $this->addRoute('PATCH', $path, $handler);
+    }
+
+    public function delete(string $path, callable $handler)
+    {
+        $this->addRoute('DELETE', $path, $handler);
+    }
+
     private function addRoute(string $method, string $path, callable $handler)
     {
         $this->routes[] = compact('method', 'path', 'handler');
@@ -45,18 +55,15 @@ class Router
                 continue;
             }
 
-            // Transforma path com {param} em regex
             $pattern = preg_replace('#\{[\w]+\}#', '([\w-]+)', $route['path']);
             $pattern = "#^{$pattern}$#";
 
             if (preg_match($pattern, $this->uri, $matches)) {
-                array_shift($matches); // Remove o match completo
+                array_shift($matches);
 
-                // Extrai os nomes dos parâmetros
                 preg_match_all('#\{([\w]+)\}#', $route['path'], $paramNames);
                 $paramNames = $paramNames[1];
 
-                // Associa nome => valor
                 $params = array_combine($paramNames, $matches);
                 $this->queryParams = array_merge($this->queryParams, $params);
 

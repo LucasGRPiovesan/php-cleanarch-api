@@ -10,4 +10,6 @@ interface UserRepositoryInterface
     public function fetch(string $uuid): ?User;
     public function store(User $user): User;
     public function findByEmail(string $email): ?User;
+    public function update(User $user): User;
+    public function delete(User $user): void;
 }

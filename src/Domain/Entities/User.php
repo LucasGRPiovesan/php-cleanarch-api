@@ -63,6 +63,11 @@ class User
         return $this->email;    
     }
 
+    public function getPassword(): string 
+    {
+        return $this->password;
+    }
+
     public function getProfile(): Profile 
     {
         return $this->profile;
@@ -71,5 +76,35 @@ class User
     public function getCreatedAt(): \DateTimeImmutable 
     {
         return $this->created_at;
+    }
+
+    public function setName(string $name): void 
+    {
+        $this->name = $name;
+    }
+
+    public function setEmail(string $email): void 
+    {
+        $this->email = $email;    
+    }
+
+    public function setPassword(string $password): void 
+    {
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    public function setProfile(Profile $profile): void 
+    {
+        $this->profile = $profile;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): void 
+    {
+        $this->created_at = $created_at;
+    }
+
+    public function setDeletedAt(\DateTime $date): void 
+    {
+        $this->deleted_at = $date;
     }
 }

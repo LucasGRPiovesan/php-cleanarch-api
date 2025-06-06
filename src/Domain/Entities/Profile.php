@@ -62,7 +62,7 @@ class Profile
 
     public function getDescription(): string 
     {
-        return $this->profile;    
+        return $this->description;    
     }
 
     public function getCreatedAt(): \DateTimeImmutable 
@@ -70,8 +70,28 @@ class Profile
         return $this->created_at;
     }
 
+    public function setUuid(string $uuid): void 
+    {
+        $this->uuid = $uuid;
+    }
+
+    public function setProfile(string $profile): void 
+    {
+        $this->profile = $profile;
+    }
+
+    public function setDescription(string $description): void 
+    {
+        $this->description = $description;
+    }
+
     public function setCreatedAt(\DateTimeImmutable $date): void 
     {
         $this->created_at = $date;
+    }
+
+    public function setDeletedAt(\DateTime $date): void 
+    {
+        $this->deleted_at = $date;
     }
 }

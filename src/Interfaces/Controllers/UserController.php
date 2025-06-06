@@ -3,7 +3,8 @@
 namespace Interfaces\Controllers;
 
 use Application\DTO\StoreUserDTO;
-use Application\UseCases\{ListUserUseCase, FetchUserUseCase, StoreUserUseCase};
+use Application\DTO\UpdateUserDTO;
+use Application\UseCases\{DeleteUserUseCase, ListUserUseCase, FetchUserUseCase, StoreUserUseCase, UpdateUserUseCase};
 
 use Frameworks\Web\Routes\Router;
 use Infrastructure\Repositories\ProfileRepository;
@@ -17,6 +18,8 @@ class UserController
     protected ListUserUseCase $listUserUseCase;
     protected FetchUserUseCase $fetchUserUseCase;
     protected StoreUserUseCase $storeUserUseCase;
+    protected UpdateUserUseCase $updateUserUseCase;
+    protected DeleteUserUseCase $deleteUserUseCase;
 
     public function __construct($entityManager)
     {
@@ -25,6 +28,8 @@ class UserController
         $this->listUserUseCase = new ListUserUseCase($this->userRepo);
         $this->fetchUserUseCase = new FetchUserUseCase($this->userRepo);
         $this->storeUserUseCase = new StoreUserUseCase($this->userRepo, $this->profileRepo);
+        $this->updateUserUseCase = new UpdateUserUseCase($this->userRepo, $this->profileRepo);
+        $this->deleteUserUseCase = new DeleteUserUseCase($this->userRepo);
     }
 
     public function list(Router $request): void
@@ -67,6 +72,53 @@ class UserController
             
             $profile = $this->storeUserUseCase->execute($data);
             $request->send(200, $profile);
+
+        } catch (\InvalidArgumentException $e) {
+        
+            $request->send(400, ['error' => $e->getMessage()]);
+        
+        } catch (\RuntimeException $e) {
+
+            $request->send(404, ['message' => $e->getMessage()]);
+
+        } catch (\Exception $e) {
+            
+            $request->send(500, ['error' => $e->getMessage()]);
+        }
+    }
+
+    public function update(Router $request): void 
+    {
+        try {
+
+            $uuid = $request->queryParams['uuid'];
+            $dto = UpdateUserDTO::fromArray($request->payload);
+            
+            $user = $this->updateUserUseCase->execute($uuid, $dto);
+            $request->send(200, $user);
+
+        } catch (\InvalidArgumentException $e) {
+        
+            $request->send(400, ['error' => $e->getMessage()]);
+        
+        } catch (\RuntimeException $e) {
+
+            $request->send(404, ['message' => $e->getMessage()]);
+
+        } catch (\Exception $e) {
+            
+            $request->send(500, ['error' => $e->getMessage()]);
+        }
+    }
+
+    public function delete(Router $request): void 
+    {
+        try {
+
+            $uuid = $request->queryParams['uuid'];
+            
+            $this->deleteUserUseCase->execute($uuid);
+            $request->send(200, ['sucess' => 'User deleted successfully']);
 
         } catch (\InvalidArgumentException $e) {
         

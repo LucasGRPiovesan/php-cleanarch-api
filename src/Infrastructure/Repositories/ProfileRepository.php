@@ -12,12 +12,17 @@ class ProfileRepository implements ProfileRepositoryInterface
 
     public function list(): array
     {
-        return $this->em->getRepository(Profile::class)->findAll();
+        return $this->em->getRepository(Profile::class)->findBy([
+            'deleted_at' => null
+        ]);
     }
 
     public function fetch(string $uuid): ?Profile
     {
-        return $this->em->getRepository(Profile::class)->findOneBy(['uuid' => $uuid]);
+        return $this->em->getRepository(Profile::class)->findOneBy([
+            'uuid' => $uuid,
+            'deleted_at' => null
+        ]);
     }
 
     public function store(Profile $profile): Profile
@@ -26,5 +31,19 @@ class ProfileRepository implements ProfileRepositoryInterface
         $this->em->flush();
 
         return $profile;
+    }
+
+    public function update(Profile $profile): Profile
+    {
+        $this->em->flush();
+        return $profile;
+    }
+
+    public function delete(Profile $profile): void
+    {
+        $profile->setDeletedAt(new \DateTime());
+
+        $this->em->persist($profile);
+        $this->em->flush();
     }
 }
