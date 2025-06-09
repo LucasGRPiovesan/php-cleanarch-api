@@ -27,10 +27,7 @@
   },
   "scripts": {
     "migrate": "vendor/bin/doctrine-migrations migrate --no-interaction",
-    "migration:generate": "vendor/bin/doctrine-migrations generate --configuration=/var/www/html/src/Infra/Database/Migrations/migrations.php",
-    "migration:status": "vendor/bin/doctrine-migrations status --configuration=/var/www/html/src/Infra/Database/Migrations/migrations.php",
-    "migration:diff": "vendor/bin/doctrine-migrations diff --configuration=/var/www/html/src/Infra/Database/Migrations/migrations.php",
     "seed": "php seed.php",
-    "test": "phpunit --colors=always"
+    "test": "phpunit --colors=always --testdox"
   }
 }

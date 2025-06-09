@@ -1,5 +1,7 @@
 vendor
 proxies
 
+.phpunit.result.cache
+
 .env
 docker-compose.override.yml

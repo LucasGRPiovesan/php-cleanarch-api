@@ -38,5 +38,10 @@ echo "===================== SEED DATA ====================="
 composer seed
 echo "Data loaded successfully!"
 
+# Running unit tests
+echo "===================== RUNNING TESTS ====================="
+composer test
+echo "Tests executed successfully!"
+
 exec apache2-foreground
 
